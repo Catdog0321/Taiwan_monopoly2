@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>島遊大亨｜今天誰能買下全台灣？</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏝️</text></svg>">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ========== 首頁 ========== -->
+<section id="screen-home" class="screen active">
+  <div class="home-card">
+    <div class="logo">
+      <div class="logo-icon">🏝️🧧</div>
+      <h1>島遊大亨</h1>
+      <p class="subtitle">今天誰能買下全台灣？</p>
+    </div>
+    <input id="input-name" class="text-input" type="text" maxlength="10" placeholder="輸入你的旅人暱稱" />
+    <div class="home-actions">
+      <button id="btn-create" class="btn btn-primary">🏠 建立房間</button>
+      <div class="join-row">
+        <input id="input-code" class="text-input code-input" type="text" maxlength="6" placeholder="房間代碼 TW8888" />
+        <button id="btn-join" class="btn btn-secondary">🚪 加入房間</button>
+      </div>
+    </div>
+    <p class="home-hint">2～6 人一起環島吧！朋友輸入相同房間代碼即可加入。</p>
+  </div>
+</section>
+
+<!-- ========== 大廳 / 角色選擇 ========== -->
+<section id="screen-lobby" class="screen">
+  <div class="lobby-wrap">
+    <div class="lobby-header">
+      <div>
+        <span class="lobby-title">房間代碼</span>
+        <span id="lobby-code" class="lobby-code">TW0000</span>
+      </div>
+      <button id="btn-copy-code" class="btn btn-ghost small">📋 複製</button>
+    </div>
+
+    <div class="lobby-body">
+      <div class="character-panel">
+        <h3>選擇你的角色</h3>
+        <div id="character-grid" class="character-grid"></div>
+      </div>
+
+      <div class="player-panel">
+        <h3>玩家列表</h3>
+        <ul id="lobby-players" class="lobby-players"></ul>
+        <div class="lobby-buttons">
+          <button id="btn-ready" class="btn btn-primary">✅ 準備</button>
+          <button id="btn-start" class="btn btn-accent" style="display:none">🎉 開始遊戲</button>
+        </div>
+        <p id="lobby-hint" class="lobby-hint">至少需要 2 位玩家都選好角色並按下準備。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 遊戲畫面 ========== -->
+<section id="screen-game" class="screen">
+  <div class="game-layout">
+
+    <!-- 左側：排行榜 -->
+    <aside class="panel panel-left" id="panel-leaderboard">
+      <div class="panel-header">🏆 排行榜</div>
+      <ol id="leaderboard-list" class="leaderboard-list"></ol>
+      <div class="weather-box" id="weather-box">☀️ 大晴天</div>
+    </aside>
+
+    <!-- 中央：棋盤 -->
+    <main class="board-wrap">
+      <div class="turn-banner" id="turn-banner">等待遊戲開始⋯</div>
+      <div id="board" class="board"></div>
+    </main>
+
+    <!-- 右側：操作區 / 聊天室 -->
+    <aside class="panel panel-right" id="panel-right">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="controls">🎮 操作</button>
+        <button class="tab-btn" data-tab="log">📜 紀錄</button>
+        <button class="tab-btn" data-tab="chat">💬 聊天</button>
+        <button class="tab-btn" data-tab="mine">🏠 我的景點</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-controls">
+        <div class="dice-area">
+          <div class="dice-pair">
+            <div id="dice1" class="die">🎲</div>
+            <div id="dice2" class="die">🎲</div>
+          </div>
+          <button id="btn-roll" class="btn btn-primary btn-big">🎲 擲骰子</button>
+          <button id="btn-end-turn" class="btn btn-secondary btn-big" disabled>⏭️ 結束回合</button>
+        </div>
+        <div class="my-info" id="my-info"></div>
+        <div class="emoji-bar" id="emoji-bar">
+          <button data-emoji="😂">😂</button>
+          <button data-emoji="😱">😱</button>
+          <button data-emoji="👏">👏</button>
+          <button data-emoji="💸">💸</button>
+          <button data-emoji="🔥">🔥</button>
+          <button data-emoji="😭">😭</button>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-log">
+        <ul id="log-list" class="log-list"></ul>
+      </div>
+
+      <div class="tab-panel" id="tab-chat">
+        <ul id="chat-list" class="chat-list"></ul>
+        <div class="chat-input-row">
+          <input id="chat-input" class="text-input" type="text" maxlength="200" placeholder="說點什麼吧⋯" />
+          <button id="btn-chat-send" class="btn btn-primary small">送出</button>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-mine">
+        <ul id="mine-list" class="mine-list"></ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 手機版底部快捷列 -->
+  <div class="mobile-bar" id="mobile-bar">
+    <button class="mbtn" data-open="controls">🎮</button>
+    <button class="mbtn" data-open="log">📜</button>
+    <button class="mbtn" data-open="chat">💬</button>
+    <button class="mbtn" data-open="mine">🏠</button>
+    <button class="mbtn" data-open="leaderboard">🏆</button>
+  </div>
+</section>
+
+<!-- ========== Modal: 購買景點 ========== -->
+<div id="modal-purchase" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div id="purchase-emoji" class="modal-emoji">🏮</div>
+    <h2 id="purchase-name">景點名稱</h2>
+    <p id="purchase-city" class="modal-sub"></p>
+    <div class="modal-stats">
+      <div><span>售價</span><strong id="purchase-price">NT$0</strong></div>
+      <div><span>基本旅遊費</span><strong id="purchase-fee">NT$0</strong></div>
+    </div>
+    <div class="modal-actions">
+      <button id="btn-buy" class="btn btn-primary btn-big">💰 投資這個景點</button>
+      <button id="btn-skip" class="btn btn-ghost btn-big">🚶 我只是路過</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== Modal: 高鐵 ========== -->
+<div id="modal-hsr" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div class="modal-emoji">🚄</div>
+    <h2>要搭高鐵嗎？</h2>
+    <p class="modal-sub">花費 NT$500，快速前往其他高鐵站</p>
+    <div id="hsr-options" class="hsr-options"></div>
+    <div class="modal-actions">
+      <button id="btn-hsr-skip" class="btn btn-ghost btn-big">🚶 不搭了</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== Modal: 事件卡 ========== -->
+<div id="modal-card" class="modal-overlay hidden">
+  <div class="modal-card card-flip">
+    <div id="card-emoji" class="modal-emoji">🎴</div>
+    <h2 id="card-deck-name">事件卡</h2>
+    <p id="card-text" class="modal-sub big"></p>
+    <div id="card-amount" class="card-amount"></div>
+    <button id="btn-card-close" class="btn btn-primary btn-big">好的！</button>
+  </div>
+</div>
+
+<!-- ========== Modal: 稱號解鎖 ========== -->
+<div id="toast-title" class="toast hidden">
+  <span id="toast-title-text"></span>
+</div>
+
+<!-- ========== Modal: 遊戲結束 ========== -->
+<div id="modal-gameover" class="modal-overlay hidden">
+  <div class="modal-card gameover-card">
+    <div class="modal-emoji big-emoji">🏆</div>
+    <h2>環島大亨誕生！</h2>
+    <p id="gameover-winner" class="modal-sub big"></p>
+    <div id="gameover-stats" class="gameover-stats"></div>
+    <div class="modal-actions">
+      <button id="btn-restart" class="btn btn-primary btn-big">🔄 再玩一局</button>
+      <button id="btn-back-lobby" class="btn btn-ghost btn-big">🏠 回到房間</button>
+    </div>
+  </div>
+</div>
+
+<div id="global-error" class="error-toast hidden"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
+</body>
+</html>

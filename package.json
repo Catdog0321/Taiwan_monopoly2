@@ -1,0 +1,13 @@
+{
+  "name": "taiwan-tycoon",
+  "version": "1.0.0",
+  "description": "島遊大亨 - 多人即時連線台灣環島大富翁網頁遊戲",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}
